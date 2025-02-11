@@ -1,9 +1,13 @@
-def print_permutations(s):
+def get_permutations(s):
     if len(s) == 1:
-        print(s)
-    else:
-        for i in range(len(s)):
-            for perm in print_permutations(s[:i] + s[i+1:]):
-                print(s[i] + perm)
+        return [s]  
+    permutations = []
+    for i in range(len(s)):  
+        for perm in get_permutations(s[:i] + s[i+1:]): 
+            permutations.append(s[i] + perm)  
+    return permutations  
+
 user_input = input("Введите строку: ")
-print_permutations(user_input)
+permutations = get_permutations(user_input)
+for p in permutations:
+    print(p)
