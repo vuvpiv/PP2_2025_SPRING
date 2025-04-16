@@ -5,8 +5,8 @@ import psycopg2
 conn = psycopg2.connect(
     host="localhost",
     database="phonebook",
-    user="postgres",        # или свой логин
-    password="159357Aa@"   # замени на свой пароль
+    user="postgres",        
+    password="159357Aa@"   
 )
 cur = conn.cursor()
 

@@ -1,6 +1,6 @@
 # Imports
 import pygame, sys
-from pygame.locals import *
+from pygame.locals import * #основные клавиши для упрощения
 import random, time
 
 # Initialzing
@@ -42,15 +42,15 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = pygame.image.load("Enemy.png")
-        self.rect = self.image.get_rect()
-        self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
+        self.rect = self.image.get_rect() #получаем прямоугольник
+        self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0) #по ширине случайно от 40 до 360, по высоте в самом верху экрана
 
     def move(self):
         global SCORE
-        self.rect.move_ip(0, SPEED)
-        if (self.rect.top > 600):
+        self.rect.move_ip(0, SPEED) #изменение координаты вниз
+        if (self.rect.top > 600): #верхняя граница врага вышла за нижнюю границу экрана
             SCORE += 1
-            self.rect.top = 0
+            self.rect.top = 0 #перерождается
             self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
 
 #added class Coin for coin to appear and to count the number of coins
@@ -62,19 +62,14 @@ class Coin(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (40, 40))
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), random.randint(40, SCREEN_HEIGHT - 40))
+        self.value = random.choice([1, 2, 3])
 
     def move(self):
         global COINS
         global SPEED
-        #adding different amount of coins depending on location of coin
-        if self.rect.bottom<SCREEN_HEIGHT//3:
-            COINS += 3
-        elif self.rect.bottom<SCREEN_HEIGHT//1.5:
-            COINS += 2
-        else:
-            COINS += 1
+        COINS+=self.value
         global c1,c2,c3,c4,c5
-        if not c1 and COINS>=10:
+        if not c1 and COINS>=10: #увеличение скорости зависит от колва собранных монет 
             SPEED+=1
             c1=True
         if not c2 and COINS>=20:
@@ -91,6 +86,7 @@ class Coin(pygame.sprite.Sprite):
             c5=True
         self.rect.top = random.randint(40, SCREEN_WIDTH - 40)
         self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), random.randint(40, SCREEN_HEIGHT - 40))
+        self.value = random.choice([1, 2, 3])
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -100,17 +96,17 @@ class Player(pygame.sprite.Sprite):
         self.rect.center = (160, 520)
 
     def move(self):
-        pressed_keys = pygame.key.get_pressed()
-        if self.rect.left > 0:
+        pressed_keys = pygame.key.get_pressed() #список состояний всех клавиш клавиатуры
+        if self.rect.left > 0: #проверяет не уехала ли за левый экран
             if pressed_keys[K_LEFT]:
                 self.rect.move_ip(-5, 0)
-        if self.rect.right < SCREEN_WIDTH:
+        if self.rect.right < SCREEN_WIDTH: #не уехала ли за правую границу
             if pressed_keys[K_RIGHT]:
                 self.rect.move_ip(5, 0)
-        if self.rect.top > 0:
+        if self.rect.top > 0: #не уехала ли вверх
             if pressed_keys[K_UP]:
                 self.rect.move_ip(0, -5)
-        if self.rect.bottom < SCREEN_HEIGHT:
+        if self.rect.bottom < SCREEN_HEIGHT: #не уехала ли вниз
             if pressed_keys[K_DOWN]:
                 self.rect.move_ip(0, 5)
                 
@@ -124,14 +120,14 @@ enemies = pygame.sprite.Group()
 enemies.add(E1)
 coinss = pygame.sprite.Group()
 coinss.add(C1)
-all_sprites = pygame.sprite.Group()
+all_sprites = pygame.sprite.Group() #класс позволяет объединить спрайты в коллекции
 all_sprites.add(P1)
 all_sprites.add(E1)
 all_sprites.add(C1)
 
-# Adding a new User event
+# Adding a new User event если пользователь ничего не делает
 INC_SPEED = pygame.USEREVENT + 1
-pygame.time.set_timer(INC_SPEED, 1000)
+pygame.time.set_timer(INC_SPEED, 1000) #раз в секунду будет генерироваться инкспиид
 
 
 def game_over_screen():
@@ -144,21 +140,21 @@ def game_over_screen():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-            elif event.type == KEYDOWN:
+            elif event.type == KEYDOWN: #нажата ли любая клавиша
                 if event.key == K_SPACE:  # Продолжить игру при нажатии на пробел
                     return True
                 elif event.key == K_ESCAPE:  # Закончить игру при нажатии на ESC
                     return False
 
 def handle_crash():
-    time.sleep(2)
+    time.sleep(2) #игра замирает на две сек
 
-background_y = 0  # Initialize background y-coordinate
+background_y = 0  # фон начинается сверху
 
 while True:
-    for event in pygame.event.get():
+    for event in pygame.event.get(): #перебирает все события которые произошли внутри окна пайгейм
         if event.type == INC_SPEED:
-            SPEED += 0.1
+            SPEED += 0.1 #увеличение скорости
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
@@ -169,9 +165,11 @@ while True:
         if not continue_game:
             pygame.quit()
             sys.exit()
+        game_over_screen()
+        
 
     # Scroll the background
-    background_y = (background_y + SPEED) % background.get_height()
+    background_y = (background_y + SPEED) % background.get_height() #mod для иллюзии бесконечности
 
     # Draw the background at the calculated position
     screen.blit(background, (0, background_y))
@@ -204,7 +202,7 @@ while True:
 
         # Respawn coins if they go off-screen
         if coin.rect.top > SCREEN_HEIGHT:
-            coin.rect.y = -coin.rect.height
+            coin.rect.y = -coin.rect.height #монета за кадром медленно спускается
             coin.rect.x = random.randint(40, SCREEN_WIDTH - 40)
 
     pygame.display.update()

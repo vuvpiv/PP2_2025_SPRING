@@ -62,7 +62,7 @@ class Snake:
 
     # Метод для проверки съедения еды
     def check_eaten(self):
-        if abs(self.history[0][0] - food_x) < scale and abs(self.history[0][1] - food_y) < scale:
+        if abs(self.history[0][0] - food_x) < scale and abs(self.history[0][1] - food_y) < scale: # голова прошла через еду
             return True
 
     # Метод для проверки достижения нового уровня
@@ -80,7 +80,7 @@ class Snake:
     def death(self):
         i = self.length - 1
         while i > 0:
-            if abs(self.history[0][0] - self.history[i][0]) < self.w and abs(self.history[0][1] - self.history[i][1]) < self.h and self.length > 2:
+            if abs(self.history[0][0] - self.history[i][0]) < self.w and abs(self.history[0][1] - self.history[i][1]) < self.h and self.length > 2: #тело берет предыдущие координаты
                 return True
             i -= 1
 
@@ -90,8 +90,8 @@ class Snake:
         while i > 0:
             self.history[i] = copy.deepcopy(self.history[i - 1])
             i -= 1
-        self.history[0][0] += self.x_dir * scale
-        self.history[0][1] += self.y_dir * scale
+        self.history[0][0] += self.x_dir * scale # для головы по х
+        self.history[0][1] += self.y_dir * scale # для головы по у
 
 # Определяем класс Food для создания объекта еды
 class Food:

@@ -175,6 +175,12 @@ while True:
                 mode = 'erase'  # Set the mode to erase
             if event.key == pygame.K_s: 
                 mode = 'square'  # Set the mode to draw squares
+            if event.key == pygame.K_t: 
+                mode = 'right_tri'  # Set the mode to draw right triangles
+            if event.key == pygame.K_u: 
+                mode = 'eq_tri'  # Set the mode to draw equilateral triangles
+            if event.key == pygame.K_h: 
+                mode = 'rhombus'  # Set the mode to draw rhombuses    
             if event.key == pygame.K_q: 
                 screen.fill(pygame.Color('white'))  # Clear the screen by filling it with white color
  
@@ -189,12 +195,7 @@ while True:
                 color = 'blue'  # Set the color to blue
             if event.key == pygame.K_5: 
                 color = 'yellow'  # Set the color to yellow
-            if event.key == pygame.K_t: 
-                mode = 'right_tri'  # Set the mode to draw right triangles
-            if event.key == pygame.K_u: 
-                mode = 'eq_tri'  # Set the mode to draw equilateral triangles
-            if event.key == pygame.K_h: 
-                mode = 'rhombus'  # Set the mode to draw rhombuses
+           
    
  
       
@@ -232,10 +233,8 @@ while True:
                 drawLine(screen, lastPos, event.pos, radius, 'white')  # If drawing is enabled and erase mode is active, draw a white line (erase) between the last position and the current position
             lastPos = event.pos  # Update the last position to the current position
  
-    # Draw a rectangle to display the radius information
-    pygame.draw.rect(screen, pygame.Color('white'), (5, 5, 115, 75))  # Draw a white rectangle to display the radius information
-    renderRadius = font.render(str(radius), True, pygame.Color(color))  # Render the text showing the current radius
-    screen.blit(renderRadius, (5, 5))  # Blit the rendered text onto the screen at the specified position
+
+    
  
     pygame.display.flip()  # Update the display
     clock.tick(FPS)  # Control the frame rate

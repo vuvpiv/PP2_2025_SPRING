@@ -28,7 +28,7 @@ COINS = 0
 # Setting up Fonts
 font = pygame.font.SysFont("Verdana", 20)
 font_small = pygame.font.SysFont("Verdana", 20)
-game_over = font.render("Game Over", True, BLACK)
+game_over = font.render("Game Over", True, BLACK) #создает поверхность с текстом , не вставляет
 
 background = pygame.image.load("AnimatedStreet.png")
 
@@ -48,10 +48,10 @@ class Enemy(pygame.sprite.Sprite):
     def move(self):
         global SCORE
         self.rect.move_ip(0, SPEED)
-        if (self.rect.top > 600):
+        if (self.rect.top > 600): #если машина проехала вниз
             SCORE += 1
-            self.rect.top = 0
-            self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
+            self.rect.top = 0 #новая машина
+            self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0) #координаты машины рандомно
 
 #added class Coin for coin to appear and to count the number of coins
 c1,c2,c3,c4,c5 = False, False, False, False, False
@@ -164,14 +164,15 @@ while True:
             sys.exit()
 
     # If there is a collision between a player and an enemy
-    if pygame.sprite.spritecollideany(P1, enemies):
+    if pygame.sprite.spritecollideany(P1, enemies): #столкнулись машины
         continue_game = handle_crash()
         if not continue_game:
             pygame.quit()
             sys.exit()
+        game_over_screen()
 
     # Scroll the background
-    background_y = (background_y + SPEED) % background.get_height()
+    background_y = (background_y + SPEED) % background.get_height() #вниз фон
 
     # Draw the background at the calculated position
     screen.blit(background, (0, background_y))
@@ -189,7 +190,7 @@ while True:
 
         # Increase the number of coins if collision with player happened
         if entity == C1:
-            if pygame.sprite.spritecollideany(P1, coinss):
+            if pygame.sprite.spritecollideany(P1, coinss): #стыковка машины и монеты
                 entity.move()
         else:
             entity.move()
@@ -200,7 +201,7 @@ while True:
 
     # Move the coins
     for coin in coinss:
-        coin.rect.y += SPEED
+        coin.rect.y += SPEED #вниз падает монета
 
         # Respawn coins if they go off-screen
         if coin.rect.top > SCREEN_HEIGHT:

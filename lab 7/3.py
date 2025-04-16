@@ -10,7 +10,7 @@ RED = (255, 0, 0)
 
 ball_radius = 25
 ball_x, ball_y = WIDTH // 2, HEIGHT // 2  # Начальная позиция (центр экрана)
-move_step = 20 
+move_step = 20 # на сколько пикселей
 
 running = True
 while running:

@@ -107,12 +107,17 @@ class Food:
 
 
 class Food:
+    def __init__(self):
+        self.new_location()
     def new_location(self):
         global food_x, food_y
         food_x = random.randrange(1, int(500 / scale) - 1) * scale
         food_y = random.randrange(1, int(500 / scale) - 1) * scale
+        self.spawn_time = time.time()
 
     def show(self):
+        if time.time() - self.spawn_time > 5:
+            self.new_location()
         pygame.draw.rect(display, food_colour, (food_x, food_y, scale, scale))
 
 # Функция для отображения счета игрока

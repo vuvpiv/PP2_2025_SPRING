@@ -5,16 +5,17 @@ pygame.init()
 
 playlist = []
 music_folder = "music"
-allmusic = os.listdir(music_folder)
+allmusic = os.listdir(music_folder) # вытаскиваем названия песни
+
 
 # Загружаем треки в плейлист
 for song in allmusic:
     if song.endswith(".mp3"):
-        playlist.append(os.path.join(music_folder, song))
+        playlist.append(os.path.join(music_folder, song)) # добавляем путь в лст плейлист
 
 screen = pygame.display.set_mode((600, 300))  # Увеличиваем ширину окна
 pygame.display.set_caption("Music Player")
-clock = pygame.time.Clock()
+clock = pygame.time.Clock() #для фпса
 
 # Шрифт для отображения названия песни
 font2 = pygame.font.SysFont(None, 30)  # Уменьшаем размер шрифта
@@ -82,15 +83,16 @@ while run:
     text2 = font2.render(os.path.basename(playlist[index]) if playlist else "No music", True, (0, 0, 0))
     text_rect = text2.get_rect(center=(300, 80))  # Центрируем текст
     
-    screen.blit(text2, text_rect.topleft)
+    screen.blit(text2, text_rect.topleft) #подставляем в экран
     
-    if aplay:
-        screen.blit(pausb, (265, 180))
+    if aplay: # для смены картинок паузы и плэй
+        screen.blit(pausb, (265, 180)) # вставляем картинку паузы на такие координаты
     else:
-        screen.blit(playb, (265, 180))
+        screen.blit(playb, (265, 180))  # вставляем картинку плэй на такие координаты
     
-    screen.blit(nextb, (360, 180))
-    screen.blit(prevb, (170, 180))
+    
+    screen.blit(nextb, (360, 180)) # вставляем картинку вперед
+    screen.blit(prevb, (170, 180)) # вставляем картинку назад
 
-    clock.tick(24)
+    clock.tick(24) #fps frame per second
     pygame.display.update()
