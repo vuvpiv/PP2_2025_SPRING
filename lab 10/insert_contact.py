@@ -5,7 +5,7 @@ conn = psycopg2.connect(
     host="localhost",
     dbname="phonebook",
     user="postgres",
-    password="159357Aa@",  # ← сюда впиши свой пароль от PostgreSQL
+    password="159357Aa@",  
     port="5432"
 )
 
